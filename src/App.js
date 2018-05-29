@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import MuiDrawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
 import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
+import MuiDivider from '@material-ui/core/Divider'
 import 'normalize.css'
 
 import Home from 'screens/Home'
@@ -17,6 +17,8 @@ const AppContainer = styled.div`
   flex: 1;
   display: flex;
   width: 100%;
+  background-color: #212121;
+  color: white;
   overflow: hidden;
 `
 
@@ -24,6 +26,8 @@ const AppDrawer = styledMui(MuiDrawer)(
   theme => ({
     paper: {
       width: 240,
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
       [theme.breakpoints.up('md')]: {
         position: 'relative',
       },
@@ -31,6 +35,12 @@ const AppDrawer = styledMui(MuiDrawer)(
   }),
   { name: 'AppDrawer' }
 )
+
+const DrawerDivider = styledMui(MuiDivider)({
+  root: {
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+  },
+})
 
 /* PRESENTATION */
 export default class App extends React.Component {
@@ -46,7 +56,7 @@ export default class App extends React.Component {
     const drawer = (
       <div>
         <List>List</List>
-        <Divider />
+        <DrawerDivider />
         <List>Other List</List>
       </div>
     )
