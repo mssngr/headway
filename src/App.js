@@ -1,94 +1,125 @@
 import React from 'react'
 import styled from 'styled-components'
+import ApolloClient from 'apollo-boost'
+import { ApolloProvider } from 'react-apollo'
+import MuiAppBar from '@material-ui/core/AppBar'
+import MuiToolbar from '@material-ui/core/Toolbar'
 import MuiDrawer from '@material-ui/core/Drawer'
-import Hidden from '@material-ui/core/Hidden'
+import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
-import MuiDivider from '@material-ui/core/Divider'
+import ListItem from '@material-ui/core/ListItem'
+// import ListItemIcon from '@material-ui/core/ListItemIcon'
+import MenuIcon from '@material-ui/icons/Menu'
 import 'normalize.css'
 
-import Home from 'screens/Home'
+import Notebooks from 'screens/Notebooks'
 
-import { styledMui } from 'utils'
 import 'App.css'
+import { colors } from 'common'
+import logo from 'assets/images/headwayLogo.svg'
+
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_GRAPHCOOL_SIMPLE_ENDPOINT,
+  fetchOptions: {
+    headers: `Bearer ${process.env.REACT_APP_GRAPHCOOL_PERMANENT_AUTH_TOKEN}`,
+  },
+})
 
 /* STYLES */
 const AppContainer = styled.div`
-  position: relative;
-  flex: 1;
   display: flex;
-  width: 100%;
-  background-color: #212121;
-  color: white;
-  overflow: hidden;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100vw;
+  height: 100vh;
+  color: ${colors.white};
 `
 
-const AppDrawer = styledMui(MuiDrawer)(
-  theme => ({
-    paper: {
-      width: 240,
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-      [theme.breakpoints.up('md')]: {
-        position: 'relative',
-      },
-    },
-  }),
-  { name: 'AppDrawer' }
-)
+const AppBar = styled(props => <MuiAppBar {...props} />)`
+  && {
+    background-color: ${colors.gray3};
+    z-index: 1201;
+  }
+`
 
-const DrawerDivider = styledMui(MuiDivider)({
-  root: {
-    backgroundColor: 'rgba(255, 255, 255, 0.12)',
-  },
-})
+const Toolbar = styled(props => <MuiToolbar {...props} />)``
+
+const AppContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+`
+
+// prettier-ignore
+const AppDrawer = styled(({isDrawerOpen, ...props}) => <MuiDrawer classes={{ paper: 'paper' }} {...props} />)`
+  && {
+    margin-left: ${props => props.isDrawerOpen ? 0 : '-240px'};
+    transition-property: margin-left;
+    transition-duration: 250ms;
+  }
+
+  & .paper {
+    position: relative;
+    width: 240px;
+    height: 100%;
+    background-color: ${colors.gray3};
+    color: ${colors.white};
+  }
+`
+
+const AppScreen = styled.div`
+  flex: 1;
+  padding: 2rem;
+  overflow: scroll;
+  background-color: ${colors.gray1};
+`
 
 /* PRESENTATION */
 export default class App extends React.Component {
   state = {
-    isMobileOpen: false,
+    isDrawerOpen: true,
   }
 
   toggleDrawer = () => {
-    this.setState({ isMobileOpen: !this.state.isMobileOpen })
+    this.setState({ isDrawerOpen: !this.state.isDrawerOpen })
   }
 
   render() {
+    const { isDrawerOpen } = this.state
     const drawer = (
       <div>
-        <List>List</List>
-        <DrawerDivider />
-        <List>Other List</List>
+        <List>
+          <ListItem>List</ListItem>
+        </List>
       </div>
     )
 
     return (
-      <AppContainer>
-        <Hidden mdUp>
-          <button onClick={this.toggleDrawer}>Click Me</button>
-          <AppDrawer
-            open={this.state.isMobileOpen}
-            onClose={this.toggleDrawer}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            <div
-              tabIndex={0}
-              role="button"
-              onClick={this.toggleDrawer}
-              onKeyDown={this.toggleDrawer}
-            >
+      <ApolloProvider client={client}>
+        <AppContainer>
+          <AppBar position="static" elevation={4}>
+            <Toolbar>
+              <IconButton
+                onClick={this.toggleDrawer}
+                color="inherit"
+                aria-label="Menu"
+              >
+                <MenuIcon />
+              </IconButton>
+              <img style={{ marginLeft: '1rem' }} src={logo} />
+            </Toolbar>
+          </AppBar>
+          <AppContent>
+            <AppDrawer isDrawerOpen={isDrawerOpen} variant="permanent" open>
               {drawer}
-            </div>
-          </AppDrawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <AppDrawer variant="permanent" open>
-            {drawer}
-          </AppDrawer>
-        </Hidden>
-        <Home />
-      </AppContainer>
+            </AppDrawer>
+            <AppScreen>
+              <Notebooks />
+            </AppScreen>
+          </AppContent>
+        </AppContainer>
+      </ApolloProvider>
     )
   }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="144px" height="36px" viewBox="0 0 144 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="36">
+        <g id="Group" transform="translate(0.000000, -10.000000)" fill="#FFFFFF">
+            <text id="head" font-family="PlayfairDisplay-Bold, Playfair Display" font-weight="bold">
+                <tspan x="0.396" y="39">head</tspan>
+            </text>
+            <text id="way" font-family="PlayfairDisplay-Regular, Playfair Display" font-weight="normal">
+                <tspan x="81.104" y="39">way</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
