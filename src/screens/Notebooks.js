@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loading from 'react-loading'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import MuiBookmark from '@material-ui/icons/Bookmark'
 
-import IconNotebook from 'components/Icon/Notebook2'
+import MediaCard from 'components/MediaCard'
 
 import { colors } from 'common'
 
@@ -20,6 +19,7 @@ const getAllNotebooks = gql`
     }
   }
 `
+
 /* STYLES */
 const NotebooksContainer = styled.div`
   display: flex;
@@ -27,34 +27,33 @@ const NotebooksContainer = styled.div`
   width: 100%;
   height: 100%;
   justify-content: center;
-  align-items: center;
-`
+  align-items: flex-start;
 
-const NotebookContainer = styled.div`
-  position: relative;
-
-  & + & {
-    margin-left: 4rem;
+  > *:not(:first-child) {
+    margin-left: 3.375rem;
   }
 `
 
-const NotebookImage = styled(IconNotebook)`
-  height: 300px;
+const Notebook = styled(MediaCard)`
+  && {
+    position: relative;
+    width: 160px;
+    overflow: hidden;
+  }
 `
 
-const NotebookContent = styled(CardContent)`
+const Bookmark = styled(MuiBookmark)`
   && {
     position: absolute;
-    left: 0;
-    top: 0;
-    padding: 1rem 1rem 0 3rem;
+    top: -10px;
+    left: 5px;
+    width: 50px;
+    height: 50px;
   }
 `
 
-const NotebookText = styled(Typography)`
-  && {
-    color: ${colors.gray10};
-  }
+const Spacer = styled.div`
+  min-height: 1.5rem;
 `
 
 /* PRESENTATION */
@@ -67,17 +66,18 @@ export default class Notebooks extends React.Component {
             if (loading) return <Loading type="bubbles" color={colors.white} />
             if (error) return <p>Couldn't load Notebooks...</p>
             return data.allNotebooks.map(notebook => (
-              <NotebookContainer>
-                <NotebookImage />
-                <NotebookContent>
-                  <NotebookText gutterBottom variant="headline" component="h2">
-                    {notebook.title}
-                  </NotebookText>
-                  <NotebookText component="p">
-                    {notebook.description}
-                  </NotebookText>
-                </NotebookContent>
-              </NotebookContainer>
+              <Notebook
+                key={notebook.id}
+                title={notebook.title}
+                caption={
+                  <Fragment>
+                    <Bookmark />
+                    <Spacer />
+                  </Fragment>
+                }
+              >
+                {notebook.description}
+              </Notebook>
             ))
           }}
         </Query>

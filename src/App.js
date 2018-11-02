@@ -5,7 +5,8 @@ import { ApolloProvider } from 'react-apollo'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 // import ListItemIcon from '@material-ui/core/ListItemIcon'
-import 'normalize.css'
+import 'minireset.css'
+import 'sanitize.css'
 
 import Notebooks from 'screens/Notebooks'
 
@@ -28,7 +29,7 @@ const AppContainer = styled.div`
   width: 100vw;
   height: 100vh;
   color: ${colors.white};
-  background-color: ${colors.gray3};
+  background-color: ${colors.blue3};
   overflow: hidden;
 `
 
@@ -50,7 +51,7 @@ const Sidebar = styled.div`
   width: ${sidebarWidth * 2}px;
   height: 300%;
   border-radius: 50%;
-  background-color: ${colors.gray2};
+  background-color: ${colors.blue2};
   color: ${colors.white};
 `
 

@@ -1,15 +1,15 @@
 const colors = {
   white: '#fff',
-  black: '#0C0D10',
-  gray1: '#EBEBEB',
-  gray2: '#595959',
-  gray3: '#282828',
+  black: '#000',
+  blue1: '#007AFF',
+  blue2: '#343949',
+  blue3: '#16181F',
 }
 
 const appColors = {
-  background: colors.black,
-  primary: colors.blue3,
-  secondary: colors.grayBlue,
+  background: colors.blue3,
+  primary: colors.white,
+  secondary: colors.blue2,
 }
 
 export default {
