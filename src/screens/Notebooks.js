@@ -10,7 +10,7 @@ import IconNotebook from 'components/Icon/Notebook2'
 
 import { colors } from 'common'
 
-/* QUERIES */
+/* GRAPHQL */
 const getAllNotebooks = gql`
   {
     allNotebooks {
